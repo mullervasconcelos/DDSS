@@ -58,21 +58,23 @@ gm = gmdistribution(mu,sigma,[0.75 0.25])
 
 T = [];
 
-for N = [10 100 1000 10000 100000];
+%for N = [10 100 1000 10000 100000];
+
+N = 10;
 
 data = random(gm,N);
 
-tic
+%tic
 %main_unicast
 %test_subgradient
-options = optimoptions(@fminunc,'Display','off','Algorithm','quasi-newton');
+%options = optimoptions(@fminunc,'Display','off','Algorithm','quasi-newton');
 % %options = optimoptions(@fminunc,'Algorithm','quasi-newton');
 %[x,J]=fminunc('cost_unicast',zeros(1,n),options);
- [x,J]=fminunc('cost_broadcast',zeros(1,2*n*(n-1)),options);
-T = [T (toc)]
+% [x,J]=fminunc('cost_broadcast',zeros(1,2*n*(n-1)),options);
+%T = [T (toc)]
 
 
-end
+%end
 
 
 
