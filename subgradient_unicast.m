@@ -1,17 +1,13 @@
 function[g] = subgradient_unicast(x)
 
-global n xhat
+global n theta
 
 Gstar = -inf;
 jstar = 0;
 
-
-
 for j=1:n
-    
-    
-    
-    G = (x(j)-xhat(j))^2;
+      
+    G = (x(j)-theta(j))^2;
     
     if G>Gstar
         
@@ -23,5 +19,5 @@ for j=1:n
 end
 
 
-g = -2*(x(jstar)-xhat(jstar))*[zeros(jstar-1,1);1;zeros(n-jstar,1)]';
+g = -2*(x(jstar)-theta(jstar))*[zeros(jstar-1,1);1;zeros(n-jstar,1)]';
 

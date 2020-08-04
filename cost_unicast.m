@@ -1,4 +1,4 @@
-function[J] = cost_unicast(xhat)
+function[J] = cost_unicast(theta)
 
 global data
 
@@ -10,9 +10,9 @@ G = zeros(N,1);
 
 for k=1:N
 
-F(k) = norm(xhat-data(k,:),2)^2;
+F(k) = norm(theta-data(k,:),2)^2;
 
-G(k) = max((xhat-data(k,:)).^2);
+G(k) = max((theta-data(k,:)).^2);
 
 end
 

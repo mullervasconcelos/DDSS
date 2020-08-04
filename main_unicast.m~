@@ -1,7 +1,3 @@
-clear all
-
-clc
-
 global n theta data
 
 DDSS_examples
@@ -54,10 +50,13 @@ delta =  abs(J1 - J2);
 
 end
 
+
+
 thetastar = thetanew;
 
-Jstar = cost_unicast(thetastar)
+Jstar = cost_unicast(thetastar);
  
 Jblind = sum(var(data)) - max(var(data))
  
+(Jblind - Jstar
 

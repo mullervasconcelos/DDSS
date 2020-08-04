@@ -8,8 +8,6 @@ global n data
 
 F = zeros(N,1);
 
-%G = zeros(N,1);
-
 for k = 1:N
 
     X = data(k,:);
@@ -25,9 +23,7 @@ for k = 1:N
         end
         
     end
-    
-    f;
-    
+        
     F(k) = min(f);
             
 end
