@@ -19,6 +19,6 @@ Auxiliary functions:
 
 Data files:
 
-1. training_data.mat
-2. testing_data.mat
+training_data.mat
+testing_data.mat
 

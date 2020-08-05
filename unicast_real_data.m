@@ -3,7 +3,7 @@
 clear all
 clc
 
-global n xhat data
+global n theta data
 
 load('train_batch.mat')
 
@@ -17,9 +17,9 @@ mean_data = mean(data);
 
 x0 = mean_data;
 
-xhat = x0;
+theta = x0;
 
-J0 = cost_unicast(x0)
+J0 = cost_unicast(theta)
 
 g = zeros(N,n);
 
@@ -29,13 +29,11 @@ for k = 1:N
     
 end
 
-xhatnew = 0.5*mean(g)+mean_data;
+thetanew = 0.5*mean(g)+mean_data;
 
-J1 = cost_unicast(xhatnew);
+J1 = cost_unicast(thetanew);
 
 delta = J0 - J1;
-
-%delta = norm(xhatnew-xhat,2);
 
 if delta < 0 
     
@@ -45,7 +43,7 @@ end
 
 while delta>=10^-4
     
-xhat = xhatnew;
+theta = thetanew;
 
 g = zeros(N,n);
 
@@ -55,16 +53,13 @@ for k = 1:N
     
 end
 
-xhatnew = 0.5*mean(g)+mean_data;
+thetanew = 0.5*mean(g)+mean_data;
 
-J1 = cost_unicast(xhat);
+J1 = cost_unicast(theta);
 
-J2 = cost_unicast(xhatnew)
-
+J2 = cost_unicast(thetanew);
 
 delta =  J1 - J2;
-
-%delta = norm(xhatnew-xhat,2);
 
 if delta < 0 
     
@@ -74,9 +69,9 @@ end
 
 end
 
-xhatstar = xhatnew
+thetastar = thetanew
  
-Jstar = cost_unicast(xhatnew)
+Jstar = cost_unicast(thetanew)
  
 toc
  
@@ -92,8 +87,6 @@ load('test_batches.mat')
 
 M = 20;
 
-%pause
-
 U = [];
 
 T = [];
@@ -105,13 +98,12 @@ for m = 1:M
     
 data = test_batches((m-1)*N+1:m*N,:);
 
-%mean_data = mean(data);
 tic
 options = optimoptions(@patternsearch,'Display','off','FunctionTolerance', 1e-4);
 [thetastar_m,Jstar_m]=patternsearch(@cost_unicast,x0,[],[],[],[],[],[],[],options);
 T = [T; (toc)];
 
-U = [U; cost_unicast(xhatstar) - Jstar_m]
+U = [U; cost_unicast(thetastar) - Jstar_m]
 
 end
 
@@ -123,12 +115,11 @@ epsilon = tinv(1-alpha,M-1)*sqrt(var(U))/sqrt(M)
 
 Ubar + epsilon
 
- 
 sum(U<0)
 
 T
 
- %x0 = mean_data;
+%x0 = mean_data;
 
 %tic
 %xhat = x0;

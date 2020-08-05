@@ -19,7 +19,7 @@ sigma = cat(3,S1,S2);
 
 gm = gmdistribution(mu,sigma,[0.75 0.25]);
 
-N = 100000;
+N = 1000;
 
 data = random(gm,N);
 

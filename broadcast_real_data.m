@@ -142,7 +142,7 @@ J1 = cost_broadcast(theta);
 
 J2 = cost_broadcast(thetanew);
 
-delta =  J1 - J2;
+delta =  J1 - J2
 
 if delta < 0 
     
@@ -158,7 +158,6 @@ thetastar = thetanew;
 
 toc
 
-pause
 
 Jstar = J2
 

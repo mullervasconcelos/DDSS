@@ -1,9 +1,8 @@
-
 clear all
 
 clc
 
-global n data xhat
+global n data theta
 
 %Bivariate Gaussian mixture example in the paper
 
@@ -19,7 +18,7 @@ sigma = cat(3,S1,S2);
 
 gm = gmdistribution(mu,sigma,[0.75 0.25]);
 
-N = 100000;
+N = 1000;
 
 data = random(gm,N);
 
@@ -33,7 +32,7 @@ mean_data = mean(data);
 
 x0 = mean_data;
 
-xhat = x0;
+theta = x0;
 
 J0 = cost_unicast(x0);
 
@@ -45,9 +44,9 @@ for k = 1:N
     
 end
 
-xhatnew = 0.5*mean(g)+mean_data;
+thetanew = 0.5*mean(g)+mean_data;
 
-J1 = cost_unicast(xhatnew);
+J1 = cost_unicast(thetanew);
 
 delta = J0 - J1;
 
@@ -59,7 +58,7 @@ end
 
 while delta>=10^-4
     
-xhat = xhatnew;
+theta = thetanew;
 
 g = zeros(N,n);
 
@@ -69,11 +68,11 @@ for k = 1:N
     
 end
 
-xhatnew = 0.5*mean(g)+mean_data;
+thetanew = 0.5*mean(g)+mean_data;
 
-J1 = cost_unicast(xhat);
+J1 = cost_unicast(theta);
 
-J2 = cost_unicast(xhatnew);
+J2 = cost_unicast(thetanew);
 
 delta =  J1 - J2;
 
@@ -89,9 +88,9 @@ end
 
 toc
 
-xhatstar = xhatnew
+thetastar = thetanew
 
-Jstar = cost_unicast(xhatstar)
+Jstar = cost_unicast(thetastar)
 
 M = 100
 
@@ -105,18 +104,18 @@ for m =1:M
    
 data = random(gm,N);
 
-xhat = mean(data);
+theta = mean(data);
 
 % PROBLEM = createOptimProblem('fmincon','objective','cost_unicast','x0',mean(data));
 % GS = GlobalSearch('Display','off');
-% [x_hat_m,Jstar_m]=run(GS,PROBLEM);
+% [theta_m,Jstar_m]=run(GS,PROBLEM);
 
 tic
 options = optimoptions(@patternsearch,'Display','off','FunctionTolerance', 1e-4);
-[thetastar_m,Jstar_m]=patternsearch(@cost_unicast,xhatstar,[],[],[],[],[],[],[],options);
+[thetastar_m,Jstar_m]=patternsearch(@cost_unicast,thetastar,[],[],[],[],[],[],[],options);
 T = [T; (toc)];
 
-U = [U; cost_unicast(xhatstar) - Jstar_m];
+U = [U; cost_unicast(thetastar) - Jstar_m];
  
 end
 
@@ -126,8 +125,7 @@ Ubar = mean(U);
  
 epsilon = tinv(1-alpha,M-1)*sqrt(var(U))/sqrt(M)
  
-gap= Ubar + epsilon
+gap = Ubar + epsilon
 
- 
 sum(U<0)
 
